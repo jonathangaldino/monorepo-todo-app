@@ -1,0 +1,12 @@
+{
+  "name": "@core/essentials",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "exports": {
+    ".": "./build/index.js"
+  },
+  "scripts": {
+    "build": "rm -rf build && tsc"
+  }
+}
