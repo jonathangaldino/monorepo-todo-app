@@ -1,0 +1,10 @@
+type Todo implements Node {
+  id: ID!
+  name: String!
+  description: String!
+  completed: Boolean!
+}
+
+type Query {
+  todo(id: ID!): Todo
+}

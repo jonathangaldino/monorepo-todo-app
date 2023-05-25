@@ -1,0 +1,19 @@
+{
+  "extends": "../essentials/tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "build",
+    "baseUrl": "src",
+    "noImplicitAny": true,
+  },
+  "include": [
+    "src/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "**/test",
+    "**/*.test.ts",
+    "**/build",
+  ]
+}
