@@ -1,0 +1,14 @@
+{
+  "extends": "../../shared/essentials/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./build",
+    "baseUrl": "src",
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/build",
+  ]
+}
