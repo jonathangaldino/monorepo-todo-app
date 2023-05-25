@@ -19,3 +19,16 @@ type Query {
   todo(id: ID!): Todo
   todos: TodoConnection
 }
+
+input CreateTodoInput {
+  name: String!
+  description: String!
+}
+
+type CreateTodoResponse {
+  todoEdge: TodoConnectionEdge!
+}
+
+type Mutation {
+  createTodo(input: CreateTodoInput!): CreateTodoResponse!
+}

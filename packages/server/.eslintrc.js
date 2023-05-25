@@ -6,5 +6,7 @@ module.exports = {
   env: { node: true },
   parser: '@typescript-eslint/parser',
   extends: ['../../.eslintrc.js'],
-  rules: {},
+  rules: {
+    "@typescript-eslint/no-namespace": "off"
+  },
 }
