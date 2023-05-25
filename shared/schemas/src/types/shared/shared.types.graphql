@@ -1,3 +1,11 @@
 interface Node {
   id: ID!
 }
+
+type PageInfo {
+  startCursor: String
+  endCursor: String
+  lastCursor: String
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+}

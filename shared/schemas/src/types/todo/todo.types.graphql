@@ -5,6 +5,17 @@ type Todo implements Node {
   completed: Boolean!
 }
 
+type TodoConnectionEdge {
+  node: Todo!
+  cursor: String
+}
+
+type TodoConnection {
+  edges: [TodoConnectionEdge!]!
+  pageInfo: PageInfo
+}
+
 type Query {
   todo(id: ID!): Todo
+  todos: TodoConnection
 }
