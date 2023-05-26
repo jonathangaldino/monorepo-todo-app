@@ -8,5 +8,8 @@
   },
   "scripts": {
     "build": "rm -rf build && tsc"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.4"
   }
 }

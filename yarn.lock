@@ -29,6 +29,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@apps/server@workspace:apps/server"
   dependencies:
+    "@core/essentials": "workspace:packages/essentials"
     "@core/schemas": "workspace:packages/schemas"
     "@graphql-tools/load-files": ^7.0.0
     "@graphql-tools/schema": ^10.0.0
@@ -42,7 +43,6 @@ __metadata:
     graphql-playground-middleware-express: ^1.7.23
     nodemon: ^2.0.22
     prisma: ^4.14.1
-    typescript: ^5.0.4
   languageName: unknown
   linkType: soft
 
@@ -1072,6 +1072,8 @@ __metadata:
 "@core/essentials@workspace:packages/essentials":
   version: 0.0.0-use.local
   resolution: "@core/essentials@workspace:packages/essentials"
+  dependencies:
+    typescript: ^5.0.4
   languageName: unknown
   linkType: soft
 
