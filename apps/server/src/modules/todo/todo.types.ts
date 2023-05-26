@@ -1,5 +1,5 @@
 export interface TodoRepositoryI {
-  createTodo(request: TodoRepositoryI.CreateTodoRequest): TodoRepositoryI.CreateTodoResponse;
+  createTodo(request: TodoRepositoryI.CreateTodoRequest): Promise<TodoRepositoryI.CreateTodoResponse>;
 }
 
 export namespace TodoRepositoryI {
@@ -8,10 +8,10 @@ export namespace TodoRepositoryI {
     description: string;
   }
 
-  export type CreateTodoResponse = Promise<{
+  export type CreateTodoResponse = {
     id: string;
     name: string;
     description: string;
     completed: boolean;
-  }>
+  }
 }

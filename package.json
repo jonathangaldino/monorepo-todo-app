@@ -8,8 +8,8 @@
     "node": ">=18.16.0"
   },
   "workspaces": [
-    "packages/server",
-    "shared/**"
+    "apps/server",
+    "packages/**"
   ],
   "scripts": {
     "build": "turbo run build",

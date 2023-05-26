@@ -1,7 +1,7 @@
 import { loadFilesSync } from '@graphql-tools/load-files';
 import { mergeResolvers, mergeTypeDefs } from '@graphql-tools/merge';
 import { makeExecutableSchema } from '@graphql-tools/schema';
-import path from 'path';
+import * as path from 'path';
 
 function getTypeDefs() {
   const typesArray = loadFilesSync(
