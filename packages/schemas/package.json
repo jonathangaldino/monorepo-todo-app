@@ -19,6 +19,7 @@
     "build"
   ],
   "scripts": {
+    "postinstall": "yarn codegen",
     "build": "rm -rf build && tsc",
     "codegen": "yarn codegen:schema && yarn codegen:types",
     "codegen:schema": "ts-node -r tsconfig-paths/register -r dotenv/config --transpile-only src/buildSchema.ts",
