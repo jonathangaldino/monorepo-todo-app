@@ -3,7 +3,7 @@
   "packageManager": "yarn@3.2.3",
   "private": true,
   "scripts": {
-    "prepare": "yarn prisma generate",
+    "postinstall": "yarn prisma generate",
     "db:migrate": "prisma migrate deploy",
     "start": "node --enable-source-maps build/index.js",
     "build": "rm -rf build && tsc",
