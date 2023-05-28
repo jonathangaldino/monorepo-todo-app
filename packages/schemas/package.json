@@ -19,9 +19,9 @@
     "build"
   ],
   "scripts": {
-    "dev:graphqlts": "nodemon --exec 'yarn codegen:types' --watch __generated__ --ext .graphql",
+    "dev:types": "nodemon --exec 'yarn codegen:types' --watch __generated__ --ext .graphql",
     "dev:schema": "nodemon --exec 'yarn codegen:schema' --watch src/types --ext .graphql",
-    "dev": "concurrently \"yarn dev:schema\" \"yarn dev:graphqlts\"",
+    "dev": "concurrently \"yarn dev:schema\" \"yarn dev:types\"",
     "build": "rm -rf build && tsc",
     "codegen": "yarn codegen:schema && yarn codegen:types",
     "codegen:schema": "ts-node -r tsconfig-paths/register --transpile-only src/buildSchema.ts",

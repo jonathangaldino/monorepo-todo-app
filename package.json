@@ -14,9 +14,7 @@
   "scripts": {
     "build": "turbo run build",
     "lint": "eslint '**/*.{ts,tsx}'",
-    "test": "turbo run test",
-    "server:dev": "yarn workspace @core/server dev",
-    "schemas:gen": "yarn workspace @core/schemas codegen"
+    "test": "turbo run test"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.29.0",
