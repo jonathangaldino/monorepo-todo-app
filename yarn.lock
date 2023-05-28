@@ -19,7 +19,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@apps/server@workspace:apps/server"
   dependencies:
-    "@core/essentials": "workspace:packages/essentials"
     "@core/schemas": "workspace:packages/schemas"
     "@graphql-tools/load-files": ^7.0.0
     "@graphql-tools/schema": ^10.0.0
