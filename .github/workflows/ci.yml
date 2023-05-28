@@ -34,11 +34,11 @@ jobs:
       - name: Generate GraphQL Schema
         run: yarn workspace @core/schemas codegen:schema
 
-      - name: Build GraphQL Types
+      - name: Generate GraphQL Types
         run: yarn workspace @core/schemas codegen:types
 
-      - name: Build Prisma Client
+      - name: Generate Prisma Client
         run: yarn workspace @apps/server prisma generate
 
-      - name: Build
+      - name: Turbo Build
         run: yarn build
