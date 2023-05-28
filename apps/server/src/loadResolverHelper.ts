@@ -4,8 +4,9 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import * as path from 'path';
 
 function getTypeDefs() {
+  // is this the best way to do this? lol
   const typesArray = loadFilesSync(
-    path.join(__dirname, '..', '..', '..', 'shared', 'schemas', 'src', 'types', '**', '*.types.graphql'),
+    path.join(__dirname, '..', '..', '..', 'packages', 'schemas', 'src', 'types', '**', '*.types.graphql'),
     { recursive: true }
   );
   return mergeTypeDefs(typesArray);
