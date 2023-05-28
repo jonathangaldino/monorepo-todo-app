@@ -8,6 +8,9 @@
       "outputs": [
         "build/**"
       ]
+    },
+    "lint": {
+      "outputs": []
     }
   }
 }
