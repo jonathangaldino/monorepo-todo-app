@@ -1,12 +1,11 @@
-/* eslint-disable no-undef */
-// Do refer to the GTS eslintrc for a good idea of basics.
-
 module.exports = {
   root: true,
   env: { node: true },
   parser: '@typescript-eslint/parser',
-  extends: ['../../.eslintrc.js'],
+  extends: ["custom"],
   rules: {
-    "@typescript-eslint/no-namespace": "off"
+    "@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": "off",
   },
 }
