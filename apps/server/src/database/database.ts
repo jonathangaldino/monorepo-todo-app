@@ -16,4 +16,3 @@ export function getPrisma(): PrismaClient {
 
 export type { Todo } from '.prisma/client'
 export { PrismaClient }
-

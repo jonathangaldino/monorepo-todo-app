@@ -1,19 +1,19 @@
-import { getPrisma } from '../../database/database';
-import TodoRepository from "../../database/repositories/TodoRepository";
-import { TodoRepositoryI } from "./todo.types";
+import { getPrisma } from '../../database/database'
+import TodoRepository from '../../database/repositories/TodoRepository'
+import { TodoRepositoryI } from './todo.types'
 
 export default class TodoService {
-  private repository: TodoRepositoryI;
+  private repository: TodoRepositoryI
 
   constructor() {
-    const prisma = getPrisma();
-    this.repository = new TodoRepository(prisma);
+    const prisma = getPrisma()
+    this.repository = new TodoRepository(prisma)
   }
 
-  async create(params: { name: string, description: string }) {
+  async create(params: { name: string; description: string }) {
     return this.repository.createTodo({
       name: params.name,
-      description: params.description
-    });
+      description: params.description,
+    })
   }
 }

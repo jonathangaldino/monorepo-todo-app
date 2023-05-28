@@ -1,5 +1,8 @@
-import type { MutationResolvers, QueryResolvers } from '@core/schemas/__generated__/graphql';
-import TodoService from '../../modules/todo/todo.services';
+import type {
+  MutationResolvers,
+  QueryResolvers,
+} from '@core/schemas/__generated__/graphql'
+import TodoService from '../../modules/todo/todo.services'
 
 export const Query: QueryResolvers = {
   todo: (_, args, _context) => ({
@@ -16,7 +19,7 @@ export const Query: QueryResolvers = {
           name: 'Random XD',
           description: 'random todo',
           completed: false,
-        }
+        },
       },
       {
         node: {
@@ -24,23 +27,23 @@ export const Query: QueryResolvers = {
           name: 'Random XD',
           description: 'random todo',
           completed: false,
-        }
-      }
-    ]
-  })
-};
+        },
+      },
+    ],
+  }),
+}
 
 export const Mutation: MutationResolvers = {
   createTodo: async (_, args, _context) => {
-    const { description, name } = args.input;
+    const { description, name } = args.input
 
-    const todoService = new TodoService();
-    const todo = await todoService.create({ name, description });
+    const todoService = new TodoService()
+    const todo = await todoService.create({ name, description })
 
     return {
       todoEdge: {
         node: todo,
-      }
+      },
     }
-  }
+  },
 }
