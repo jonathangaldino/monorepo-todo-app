@@ -8,7 +8,8 @@
     "build": "rm -rf build && tsc",
     "dev-build": "tsc && tsc -w",
     "dev-serve": "PORT=4000 nodemon --watch ./build/ --exec yarn start",
-    "dev": "concurrently \"yarn dev-build\" \"yarn dev-serve\""
+    "dev": "concurrently \"yarn dev-build\" \"yarn dev-serve\"",
+    "lint": "eslint \"**/*.ts*\""
   },
   "dependencies": {
     "@core/schemas": "workspace:packages/schemas",
@@ -25,6 +26,7 @@
   "devDependencies": {
     "@types/express": "^4.17.17",
     "concurrently": "^8.0.1",
+    "eslint": "^8.41.0",
     "eslint-config-custom": "workspace:^",
     "nodemon": "^2.0.22",
     "typescript": "5.0.4"
