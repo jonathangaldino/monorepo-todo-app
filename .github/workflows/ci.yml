@@ -31,5 +31,11 @@ jobs:
       - name: Install dependencies
         run: yarn
 
+      - name: Generate GraphQL Schema
+        run: yarn workspace @core/schemas codegen:schema
+
+      - name: Build GraphQL Types
+        run: yarn workspace @core/schemas codegen:types
+
       - name: Build
         run: yarn build
