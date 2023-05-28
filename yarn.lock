@@ -1088,6 +1088,7 @@ __metadata:
     "@graphql-tools/merge": ^9.0.0
     "@graphql-tools/schema": ^10.0.0
     "@graphql-tools/utils": ^10.0.0
+    nodemon: ^2.0.22
     ts-node: ^10.9.1
     tsconfig-paths: ^4.2.0
     typescript: ^5.0.4
