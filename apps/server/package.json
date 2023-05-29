@@ -2,6 +2,9 @@
   "name": "@apps/server",
   "packageManager": "yarn@3.2.3",
   "private": true,
+  "prisma": {
+    "schema": "./src/database/schema.prisma"
+  },
   "scripts": {
     "db:migrate": "prisma migrate deploy",
     "start": "node --enable-source-maps build/index.js",
@@ -29,9 +32,7 @@
     "eslint": "^8.41.0",
     "eslint-config-custom": "workspace:*",
     "nodemon": "^2.0.22",
+    "tsconfig": "workspace:*",
     "typescript": "5.0.4"
-  },
-  "prisma": {
-    "schema": "./src/database/schema.prisma"
   }
 }
