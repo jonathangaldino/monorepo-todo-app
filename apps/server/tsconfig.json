@@ -1,5 +1,5 @@
 {
-  "extends": "../../packages/essentials/tsconfig.json",
+  "extends": "tsconfig/base.json",
   "compilerOptions": {
     "outDir": "./build",
     "baseUrl": "src",
