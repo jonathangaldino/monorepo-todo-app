@@ -4,6 +4,8 @@ export interface TodoRepositoryI {
   ): Promise<TodoRepositoryI.CreateTodoResponse>
 
   getAll(): Promise<TodoRepositoryI.GetAllTodosResponse>
+
+  findById(id: string): Promise<TodoRepositoryI.FindByIdResponse>
 }
 
 export namespace TodoRepositoryI {
@@ -25,4 +27,11 @@ export namespace TodoRepositoryI {
     description: string
     completed: boolean
   }[]
+
+  export type FindByIdResponse = {
+    id: string
+    name: string
+    description: string
+    completed: boolean
+  } | null
 }
