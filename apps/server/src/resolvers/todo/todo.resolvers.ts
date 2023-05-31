@@ -1,25 +1,41 @@
 import type {
   MutationResolvers,
   QueryResolvers,
-  Todo,
 } from '@core/schemas/__generated__/graphql'
-import TodoService from '../../modules/todo/todo.services'
+import { Todo } from '@prisma/client'
+import { create, fetch, findById } from '../../modules/todo/todo.services'
 import { paginate } from '../paginationHelpers'
-
-const todoService = new TodoService()
 
 export const Query: QueryResolvers = {
   todo: async (_, args, _context) => {
-    const todo = await todoService.findById(args.id as string)
-    return todo
+    const todo = await findById(args.id as string)
+
+    if (!todo) return null
+
+    // todo: perhaps a field level resolver would fix this?
+    return {
+      ...todo,
+      updatedAt: todo.updatedAt.toISOString(),
+      createdAt: todo.createdAt.toISOString(),
+    }
   },
-  todos: async (_, _args, _context) => {
-    const todos = await todoService.fetch()
+  todos: async (_, { first, after }, _context) => {
+    const todos = await fetch({
+      howMany: first as number,
+    })
 
     const { edges, pageInfo } = paginate<Todo>(todos)
 
     return {
-      edges,
+      edges: edges.map((edge) => ({
+        ...edge,
+        node: {
+          ...edge.node,
+          // todo: perhaps a field level resolver would fix this?
+          createdAt: edge.node.createdAt.toISOString(),
+          updatedAt: edge.node.createdAt.toISOString(),
+        },
+      })),
       pageInfo,
     }
   },
@@ -29,11 +45,17 @@ export const Mutation: MutationResolvers = {
   createTodo: async (_, args, _context) => {
     const { description, name } = args.input
 
-    const todo = await todoService.create({ name, description })
+    const todo = await create({ name, description })
 
     return {
       todoEdge: {
-        node: todo,
+        node: {
+          ...todo,
+          // todo: perhaps a field level resolver would fix this?
+          updatedAt: todo.updatedAt.toISOString(),
+          createdAt: todo.createdAt.toISOString(),
+        },
+        curso: todo.id,
       },
     }
   },

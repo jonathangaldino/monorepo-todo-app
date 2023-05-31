@@ -1,27 +1,44 @@
 import { getPrisma } from '../../database/database'
-import TodoRepository from '../../database/repositories/TodoRepository'
-import { TodoRepositoryI } from './todo.types'
 
-export default class TodoService {
-  private repository: TodoRepositoryI
+const prisma = getPrisma()
 
-  constructor() {
-    const prisma = getPrisma()
-    this.repository = new TodoRepository(prisma)
-  }
-
-  async create(params: { name: string; description: string }) {
-    return this.repository.createTodo({
+export const create = async (params: { name: string; description: string }) => {
+  const todo = await prisma.todo.create({
+    data: {
       name: params.name,
       description: params.description,
-    })
-  }
+      completed: false,
+    },
+  })
 
-  async fetch() {
-    return this.repository.getAll()
-  }
+  return todo
+}
 
-  async findById(id: string) {
-    return this.repository.findById(id)
-  }
+type PaginationParams = {
+  howMany?: number
+  afterCursor?: string
+}
+
+const defaultPaginationParams: PaginationParams = {
+  howMany: 0,
+  afterCursor: undefined,
+}
+
+export const fetch = async (
+  paginationParams: PaginationParams = defaultPaginationParams
+) => {
+  const todos = await prisma.todo.findMany({
+    take: paginationParams.howMany,
+    orderBy: {},
+  })
+
+  return todos
+}
+
+export const findById = async (id: string) => {
+  return prisma.todo.findUnique({
+    where: {
+      id,
+    },
+  })
 }
