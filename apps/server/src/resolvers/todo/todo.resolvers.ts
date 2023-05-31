@@ -15,7 +15,10 @@ export const Query: QueryResolvers = {
     const todos = await todoService.fetch()
 
     return {
-      edges: todos.map((todo) => ({ node: todo })),
+      edges: todos.map((todo, index) => ({
+        node: todo,
+        cursor: todos[index + 1] === undefined ? todo.id : null,
+      })),
     }
   },
 }
