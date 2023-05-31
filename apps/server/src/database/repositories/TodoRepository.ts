@@ -25,4 +25,10 @@ export default class TodoRepository implements TodoRepositoryI {
 
     return todo
   }
+
+  async getAll(): Promise<TodoRepositoryI.GetAllTodosResponse> {
+    const todos = await this.prisma.todo.findMany()
+
+    return todos
+  }
 }
