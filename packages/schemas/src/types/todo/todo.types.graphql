@@ -3,6 +3,8 @@ type Todo implements Node {
   name: String!
   description: String!
   completed: Boolean!
+  createdAt: String!
+  updatedAt: String!
 }
 
 type TodoConnectionEdge {
@@ -17,7 +19,7 @@ type TodoConnection {
 
 type Query {
   todo(id: ID!): Todo
-  todos: TodoConnection
+  todos(first: Int, after: String): TodoConnection!
 }
 
 input CreateTodoInput {

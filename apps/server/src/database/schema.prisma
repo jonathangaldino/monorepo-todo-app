@@ -11,8 +11,10 @@ datasource db {
 }
 
 model Todo {
-  id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name        String
   description String
-  completed   Boolean @default(value: false)
+  completed   Boolean  @default(value: false)
+  createdAt   DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime @updatedAt @db.Timestamptz(3)
 }
