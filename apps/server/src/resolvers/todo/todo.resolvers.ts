@@ -1,8 +1,10 @@
 import type {
   MutationResolvers,
   QueryResolvers,
+  Todo,
 } from '@core/schemas/__generated__/graphql'
 import TodoService from '../../modules/todo/todo.services'
+import { paginate } from '../paginationHelpers'
 
 const todoService = new TodoService()
 
@@ -14,11 +16,11 @@ export const Query: QueryResolvers = {
   todos: async (_, _args, _context) => {
     const todos = await todoService.fetch()
 
+    const { edges, pageInfo } = paginate<Todo>(todos)
+
     return {
-      edges: todos.map((todo, index) => ({
-        node: todo,
-        cursor: todos[index + 1] === undefined ? todo.id : null,
-      })),
+      edges,
+      pageInfo,
     }
   },
 }
