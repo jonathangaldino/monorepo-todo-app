@@ -20,8 +20,10 @@ export const Query: QueryResolvers = {
     }
   },
   todos: async (_, { first, after }, _context) => {
+    // Todo: figure out if I need to do this with types
     const todos = await fetch({
-      howMany: first as number,
+      count: first as number | undefined,
+      cursor: after as string | undefined,
     })
 
     const { edges, pageInfo } = paginate<Todo>(todos)

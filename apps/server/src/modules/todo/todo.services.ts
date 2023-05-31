@@ -15,21 +15,29 @@ export const create = async (params: { name: string; description: string }) => {
 }
 
 type PaginationParams = {
-  howMany?: number
-  afterCursor?: string
+  count?: number
+  cursor?: string
 }
 
 const defaultPaginationParams: PaginationParams = {
-  howMany: 0,
-  afterCursor: undefined,
+  count: 0,
+  cursor: undefined,
 }
 
 export const fetch = async (
   paginationParams: PaginationParams = defaultPaginationParams
 ) => {
+  // This shit is gold!
+  // https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination
   const todos = await prisma.todo.findMany({
-    take: paginationParams.howMany,
-    orderBy: {},
+    skip: paginationParams.cursor ? 1 : undefined,
+    take: paginationParams.count,
+    cursor: paginationParams.cursor
+      ? { id: paginationParams.cursor }
+      : undefined,
+    orderBy: {
+      createdAt: 'asc',
+    },
   })
 
   return todos
