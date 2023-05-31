@@ -2,6 +2,8 @@ export interface TodoRepositoryI {
   createTodo(
     request: TodoRepositoryI.CreateTodoRequest
   ): Promise<TodoRepositoryI.CreateTodoResponse>
+
+  getAll(): Promise<TodoRepositoryI.GetAllTodosResponse>
 }
 
 export namespace TodoRepositoryI {
@@ -16,4 +18,11 @@ export namespace TodoRepositoryI {
     description: string
     completed: boolean
   }
+
+  export type GetAllTodosResponse = {
+    id: string
+    name: string
+    description: string
+    completed: boolean
+  }[]
 }

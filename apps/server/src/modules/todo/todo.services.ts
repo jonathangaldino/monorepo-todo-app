@@ -16,4 +16,8 @@ export default class TodoService {
       description: params.description,
     })
   }
+
+  async fetch() {
+    return this.repository.getAll()
+  }
 }
