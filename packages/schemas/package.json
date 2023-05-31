@@ -19,7 +19,7 @@
     "build"
   ],
   "scripts": {
-    "dev:types": "nodemon --exec 'yarn codegen:types' --watch __generated__ --ext .graphql",
+    "dev:types": "nodemon --exec 'yarn codegen:types' --watch src/types --ext .graphql",
     "dev:schema": "nodemon --exec 'yarn codegen:schema' --watch src/types --ext .graphql",
     "dev": "concurrently \"yarn dev:schema\" \"yarn dev:types\"",
     "build": "rm -rf build && tsc",
