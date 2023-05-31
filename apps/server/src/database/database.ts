@@ -8,7 +8,7 @@ export function getPrisma(): PrismaClient {
   }
 
   prisma = new PrismaClient({
-    log: process.env.PRISMA_DEBUG ? ['query'] : undefined,
+    // log: process.env.PRISMA_DEBUG ? ['query'] : undefined,
   })
 
   return prisma
