@@ -20,4 +20,8 @@ export default class TodoService {
   async fetch() {
     return this.repository.getAll()
   }
+
+  async findById(id: string) {
+    return this.repository.findById(id)
+  }
 }

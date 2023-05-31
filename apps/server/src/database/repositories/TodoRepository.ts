@@ -31,4 +31,14 @@ export default class TodoRepository implements TodoRepositoryI {
 
     return todos
   }
+
+  async findById(id: string) {
+    const todo = await this.prisma.todo.findUnique({
+      where: {
+        id,
+      },
+    })
+
+    return todo
+  }
 }

@@ -7,12 +7,10 @@ import TodoService from '../../modules/todo/todo.services'
 const todoService = new TodoService()
 
 export const Query: QueryResolvers = {
-  todo: (_, args, _context) => ({
-    id: args.id.toString(),
-    name: 'Random XD',
-    description: 'random todo',
-    completed: false,
-  }),
+  todo: async (_, args, _context) => {
+    const todo = await todoService.findById(args.id as string)
+    return todo
+  },
   todos: async (_, _args, _context) => {
     const todos = await todoService.fetch()
 
