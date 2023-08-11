@@ -15,15 +15,14 @@
     "lint": "eslint \"**/*.ts*\""
   },
   "dependencies": {
+    "@apollo/server": "^4.9.1",
     "@core/schemas": "workspace:packages/schemas",
     "@graphql-tools/load-files": "^7.0.0",
     "@graphql-tools/schema": "^10.0.0",
     "@prisma/client": "^4.14.1",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "graphql": "^16.6.0",
-    "graphql-http": "^1.18.0",
-    "graphql-playground-middleware-express": "^1.7.23",
     "prisma": "^4.14.1"
   },
   "devDependencies": {

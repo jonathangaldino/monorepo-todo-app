@@ -1,9 +1,10 @@
 import 'tsconfig-paths/register'
 
+import { ApolloServer } from '@apollo/server'
+import { startStandaloneServer } from '@apollo/server/standalone'
 import express from 'express'
-import { createHandler } from 'graphql-http/lib/use/express'
-import expressPlayground from 'graphql-playground-middleware-express'
-import { Server as HttpServer } from 'http'
+import http, { Server as HttpServer } from 'http'
+import { ApolloContext, createContext } from './context'
 import { loadResolvers } from './loadResolverHelper'
 
 const PORT = 4000
@@ -18,43 +19,35 @@ export class Server {
   private httpServer!: HttpServer
 
   private port: number
-  private graphqlEndpoint: string
 
   constructor(params: ServerParams) {
     this.port = params.port ?? PORT
-    this.graphqlEndpoint = params.graphqlEndpoint ?? GRAPH_QL_ENDPOINT
   }
 
   async start() {
     const app = express()
+    this.httpServer = http.createServer(app)
 
-    app.all(this.graphqlEndpoint, this.createGraphQLHandler())
+    // Apollo
+    const server = new ApolloServer<ApolloContext>({
+      schema: loadResolvers(),
+    })
 
-    // In order to avoid exposing our apis, we could check current environment and add or not. e.g.
-    // if (NODE_ENV === 'development')
-    app.get(
-      '/playground',
-      expressPlayground({ endpoint: this.graphqlEndpoint })
-    )
+    const { url } = await startStandaloneServer(server, {
+      listen: { port: this.port },
+      context: async ({ req, res }) => {
+        const context = await createContext()
 
-    this.httpServer = app.listen(this.port, () =>
-      console.log(
-        `Running a GraphQL API server at port '${this.port}' at ${this.graphqlEndpoint}`
-      )
-    )
+        return {
+          ...context,
+        }
+      },
+    })
+
+    console.log(`🚀 GraphQL API server at port '${this.port}' at ${url}`)
   }
 
   async stop() {
     this.httpServer.close()
-  }
-
-  private createGraphQLHandler() {
-    return createHandler({
-      schema: loadResolvers(),
-      formatError: (error) => {
-        console.error(error)
-        return error
-      },
-    })
   }
 }
