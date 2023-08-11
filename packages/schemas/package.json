@@ -19,7 +19,7 @@
     "build"
   ],
   "scripts": {
-    "dev:types": "nodemon --exec 'yarn codegen:types' --watch __generated__ --ext .graphql",
+    "dev:types": "nodemon --exec 'yarn codegen:types' --watch src/types --ext .graphql",
     "dev:schema": "nodemon --exec 'yarn codegen:schema' --watch src/types --ext .graphql",
     "dev": "concurrently \"yarn dev:schema\" \"yarn dev:types\"",
     "build": "rm -rf build && tsc",
@@ -30,7 +30,8 @@
   "dependencies": {
     "@graphql-tools/load-files": "^7.0.0",
     "@graphql-tools/merge": "^9.0.0",
-    "@graphql-tools/schema": "^10.0.0"
+    "@graphql-tools/schema": "^10.0.0",
+    "graphql": "^16.7.1"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^4.0.0",

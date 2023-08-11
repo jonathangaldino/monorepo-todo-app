@@ -4,8 +4,5 @@ interface Node {
 
 type PageInfo {
   startCursor: String
-  endCursor: String
   lastCursor: String
-  hasNextPage: Boolean
-  hasPreviousPage: Boolean
 }
