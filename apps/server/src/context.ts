@@ -1,6 +1,6 @@
 import { BaseContext } from '@apollo/server'
 import { PrismaClient } from '@prisma/client'
-import { getPrisma } from './database/database'
+import { getPrisma } from './infra/database'
 
 export type Context = {
   db: PrismaClient

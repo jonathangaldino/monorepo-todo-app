@@ -1,20 +1,12 @@
-import { Context } from '../../context'
-import { getPrisma } from '../../database/database'
-
-const prisma = getPrisma()
+import { ITodoRepository } from './todo.types'
 
 export const create = async (
-  ctx: Context,
+  deps: { todoRepository: ITodoRepository },
   params: { name: string; description: string }
 ) => {
-  console.log(ctx.db)
-
-  const todo = await ctx.db.todo.create({
-    data: {
-      name: params.name,
-      description: params.description,
-      completed: false,
-    },
+  const todo = await deps.todoRepository.create({
+    name: params.name,
+    description: params.description,
   })
 
   return todo
@@ -31,29 +23,23 @@ const defaultPaginationParams: PaginationParams = {
 }
 
 export const fetch = async (
-  ctx: Context,
+  deps: { todoRepository: ITodoRepository },
   paginationParams: PaginationParams = defaultPaginationParams
 ) => {
   // This shit is gold!
   // https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination
-  const todos = await ctx.db.todo.findMany({
-    skip: paginationParams.cursor ? 1 : undefined,
-    take: paginationParams.count,
-    cursor: paginationParams.cursor
-      ? { id: paginationParams.cursor }
-      : undefined,
-    orderBy: {
-      createdAt: 'asc',
-    },
+
+  const todos = await deps.todoRepository.getAll({
+    count: paginationParams.count,
+    cursor: paginationParams.cursor,
   })
 
   return todos
 }
 
-export const findById = async (ctx: Context, id: string) => {
-  return prisma.todo.findUnique({
-    where: {
-      id,
-    },
-  })
+export const findById = async (
+  deps: { todoRepository: ITodoRepository },
+  id: string
+) => {
+  return deps.todoRepository.findById({ id })
 }

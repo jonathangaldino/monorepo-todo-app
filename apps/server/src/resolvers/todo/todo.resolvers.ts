@@ -3,13 +3,19 @@ import type {
   QueryResolvers,
 } from '@core/schemas/__generated__/graphql'
 import { Todo } from '@prisma/client'
-import { ApolloContext } from 'context'
-import { create, fetch, findById } from '../../modules/todo/todo.services'
+import { ApolloContext } from 'src/context'
+import { TodoRepository } from '../../modules/todo/todo.repository'
+import { create } from '../../modules/todo/todo.services'
 import { paginate } from '../paginationHelpers'
 
 export const Query: QueryResolvers = {
   todo: async (_parent, args, ctx, _info) => {
-    const todo = await findById(ctx, args.id as string)
+    const { id } = args
+    const todoRepository = new TodoRepository(ctx.db)
+
+    // todo: validate arguments
+
+    const todo = await todoRepository.findById({ id: id as string })
 
     if (!todo) return null
 
@@ -20,11 +26,12 @@ export const Query: QueryResolvers = {
       createdAt: todo.createdAt.toISOString(),
     }
   },
+
   todos: async (_parent, { first, after }, ctx: ApolloContext, _info) => {
-    // Todo: figure out if I need to do this with types
-    const todos = await fetch(ctx, {
+    const todoRepository = new TodoRepository(ctx.db)
+    const todos = await todoRepository.getAll({
+      cursor: after!,
       count: first as number | undefined,
-      cursor: after as string | undefined,
     })
 
     const { edges, pageInfo } = paginate<Todo>(todos)
@@ -48,7 +55,8 @@ export const Mutation: MutationResolvers = {
   createTodo: async (_, args, ctx: ApolloContext, _info) => {
     const { description, name } = args.input
 
-    const todo = await create(ctx, { name, description })
+    const todoRepository = new TodoRepository(ctx.db)
+    const todo = await create({ todoRepository }, { name, description })
 
     return {
       todoEdge: {

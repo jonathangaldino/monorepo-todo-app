@@ -1,26 +1,21 @@
-import { Context } from 'context'
-import {
-  createMockContext,
-  MockContext,
-} from '../../../tests/db/prisma-context'
+import { makeTodoServiceDeps } from '@tests/modules/todo/make-todo-service-deps'
 import { create } from './todo.services'
+import { ITodoRepository } from './todo.types'
 
-let mockCtx: MockContext
-let ctx: Context
+describe('Todo Services', () => {
+  let todoRepository: ITodoRepository
 
-beforeEach(() => {
-  mockCtx = createMockContext()
-  ctx = mockCtx as unknown as Context
-})
+  beforeEach(() => {
+    const { repository } = makeTodoServiceDeps()
+    todoRepository = repository
+  })
 
-describe('TodoService', () => {
-  describe('create', () => {
-    it('should ', async () => {
-      const todoParams = { name: 'new todo', description: 'old todo?' }
+  it('should create a todo', async () => {
+    const todo = await create(
+      { todoRepository },
+      { name: 'new todo', description: 'new todo' }
+    )
 
-      const todo = await create(ctx, todoParams)
-
-      console.log(todo)
-    })
+    expect(todo).toBeDefined()
   })
 })
