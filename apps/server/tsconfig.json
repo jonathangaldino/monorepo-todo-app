@@ -3,12 +3,15 @@
   "compilerOptions": {
     "outDir": "./build",
     "baseUrl": "src",
+    "paths": {
+      "@tests/*": ["./tests/*"]
+    }
   },
   "include": [
     "src/**/*.ts"
   ],
   "exclude": [
     "**/node_modules",
-    "**/build",
+    "**/build"
   ]
 }

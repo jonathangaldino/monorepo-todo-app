@@ -7,7 +7,9 @@ export const create = async (
   ctx: Context,
   params: { name: string; description: string }
 ) => {
-  const todo = await prisma.todo.create({
+  console.log(ctx.db)
+
+  const todo = await ctx.db.todo.create({
     data: {
       name: params.name,
       description: params.description,
