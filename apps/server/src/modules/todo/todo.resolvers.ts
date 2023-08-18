@@ -1,19 +1,35 @@
 import type {
   MutationResolvers,
   QueryResolvers,
-  TodoResolvers,
 } from '@core/schemas/__generated__/graphql'
 import { Todo as TodoModel } from '@prisma/client'
 import { ApolloContext } from 'src/context'
+import { z } from 'zod'
 import { paginate } from '../../graphql-utils'
 import { makeTodoService } from './factories/makeTodoService'
 
 export const Query: QueryResolvers = {
   todo: async (_parent, args, ctx, _info) => {
-    const { id } = args
-    const { service } = makeTodoService(ctx.db)
+    const schema = z
+      .object({
+        id: z
+          .string()
+          .trim()
+          .min(5, { message: 'Must be at least 5 characters long' }),
+      })
+      .required()
 
-    // todo: validate arguments
+    const parseResult = schema.safeParse(args)
+
+    if (!parseResult.success) {
+      // todo: improve GraphQL errors
+      throw new Error(parseResult.error.issues[0].message)
+    }
+
+    const {
+      data: { id },
+    } = parseResult
+    const { service } = makeTodoService(ctx.db)
 
     const todo = await service.findById(id as string)
 
@@ -55,12 +71,5 @@ export const Mutation: MutationResolvers = {
         cursor: todo.id,
       },
     }
-  },
-}
-
-export const Todo: TodoResolvers = {
-  updatedAt: (todo, args, ctx, _info) => {
-    console.log({ todo })
-    return new Date().toISOString()
   },
 }
