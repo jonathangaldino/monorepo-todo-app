@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { randomBytes } from 'crypto'
 import { ITodoRepository } from './todo.types'
 
 export class TodoRepository implements ITodoRepository {
@@ -7,10 +8,13 @@ export class TodoRepository implements ITodoRepository {
   async create(
     input: ITodoRepository.CreateTodoInput
   ): ITodoRepository.CreateTodoOutput {
+    const id = randomBytes(9).toString('base64url')
+
     const todo = await this.db.todo.create({
       data: {
         ...input,
         completed: false,
+        id,
       },
     })
 

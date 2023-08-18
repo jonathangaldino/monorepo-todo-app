@@ -1,17 +1,5 @@
 import { ITodoRepository } from './todo.types'
 
-export const create = async (
-  deps: { todoRepository: ITodoRepository },
-  params: { name: string; description: string }
-) => {
-  const todo = await deps.todoRepository.create({
-    name: params.name,
-    description: params.description,
-  })
-
-  return todo
-}
-
 type PaginationParams = {
   count?: number
   cursor?: string
@@ -22,24 +10,35 @@ const defaultPaginationParams: PaginationParams = {
   cursor: undefined,
 }
 
-export const fetch = async (
-  deps: { todoRepository: ITodoRepository },
-  paginationParams: PaginationParams = defaultPaginationParams
-) => {
-  // This shit is gold!
-  // https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination
+export class TodoService {
+  private todoRepository: ITodoRepository
 
-  const todos = await deps.todoRepository.getAll({
-    count: paginationParams.count,
-    cursor: paginationParams.cursor,
-  })
+  constructor({ todoRepository }: { todoRepository: ITodoRepository }) {
+    this.todoRepository = todoRepository
+  }
 
-  return todos
-}
+  async create(params: { name: string; description: string }) {
+    const todo = await this.todoRepository.create({
+      name: params.name,
+      description: params.description,
+    })
 
-export const findById = async (
-  deps: { todoRepository: ITodoRepository },
-  id: string
-) => {
-  return deps.todoRepository.findById({ id })
+    return todo
+  }
+
+  async fetch(paginationParams: PaginationParams = defaultPaginationParams) {
+    // This shit is gold!
+    // https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination
+
+    const todos = await this.todoRepository.getAll({
+      count: paginationParams.count,
+      cursor: paginationParams.cursor,
+    })
+
+    return todos
+  }
+
+  async findById(id: string) {
+    return this.todoRepository.findById({ id })
+  }
 }

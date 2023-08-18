@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Todo {
-  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id          String   @id
   name        String
   description String
   completed   Boolean  @default(value: false)

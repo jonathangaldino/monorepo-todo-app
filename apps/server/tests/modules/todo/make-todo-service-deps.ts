@@ -1,7 +1,7 @@
-import { TodoInMemoryRepository } from './todo.inmemoryrepository'
+import { TodoInMemRepository } from './mocks/todo.repository'
 
 export const makeTodoServiceDeps = () => {
-  const repository = new TodoInMemoryRepository()
+  const repository = new TodoInMemRepository()
 
   return {
     repository,

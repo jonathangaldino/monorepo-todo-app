@@ -1,14 +1,15 @@
+import { generateId } from '@core/essentials'
 import { Todo } from '@prisma/client'
-import { ITodoRepository } from '../../../src/modules/todo/todo.types'
+import { ITodoRepository } from '../../../../src/modules/todo/todo.types'
 
 const todosDb = new Map<string, Todo>()
 
-export class TodoInMemoryRepository implements ITodoRepository {
+export class TodoInMemRepository implements ITodoRepository {
   async create(
     input: ITodoRepository.CreateTodoInput
   ): ITodoRepository.CreateTodoOutput {
     const todo = {
-      id: '123', // todo: generate uuid
+      id: generateId(),
       ...input,
       completed: false,
       createdAt: new Date(),

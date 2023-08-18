@@ -4,18 +4,17 @@ import type {
 } from '@core/schemas/__generated__/graphql'
 import { Todo } from '@prisma/client'
 import { ApolloContext } from 'src/context'
-import { TodoRepository } from '../../modules/todo/todo.repository'
-import { create } from '../../modules/todo/todo.services'
-import { paginate } from '../paginationHelpers'
+import { paginate } from '../../graphql-utils'
+import { makeTodoService } from './factories/makeTodoService'
 
 export const Query: QueryResolvers = {
   todo: async (_parent, args, ctx, _info) => {
     const { id } = args
-    const todoRepository = new TodoRepository(ctx.db)
+    const { service } = makeTodoService(ctx.db)
 
     // todo: validate arguments
 
-    const todo = await todoRepository.findById({ id: id as string })
+    const todo = await service.findById(id as string)
 
     if (!todo) return null
 
@@ -28,8 +27,9 @@ export const Query: QueryResolvers = {
   },
 
   todos: async (_parent, { first, after }, ctx: ApolloContext, _info) => {
-    const todoRepository = new TodoRepository(ctx.db)
-    const todos = await todoRepository.getAll({
+    const { service } = makeTodoService(ctx.db)
+
+    const todos = await service.fetch({
       cursor: after!,
       count: first as number | undefined,
     })
@@ -55,8 +55,9 @@ export const Mutation: MutationResolvers = {
   createTodo: async (_, args, ctx: ApolloContext, _info) => {
     const { description, name } = args.input
 
-    const todoRepository = new TodoRepository(ctx.db)
-    const todo = await create({ todoRepository }, { name, description })
+    const { service } = makeTodoService(ctx.db)
+
+    const todo = await service.create({ name, description })
 
     return {
       todoEdge: {
@@ -66,7 +67,7 @@ export const Mutation: MutationResolvers = {
           updatedAt: todo.updatedAt.toISOString(),
           createdAt: todo.createdAt.toISOString(),
         },
-        curso: todo.id,
+        cursor: todo.id,
       },
     }
   },

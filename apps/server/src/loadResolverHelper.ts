@@ -5,27 +5,29 @@ import * as path from 'path'
 
 function getTypeDefs() {
   // is this the best way to do this? lol
-  const typesArray = loadFilesSync(
-    path.join(
-      __dirname,
-      '..',
-      '..',
-      '..',
-      'packages',
-      'schemas',
-      'src',
-      'types',
-      '**',
-      '*.types.graphql'
-    ),
-    { recursive: true }
+  const typesPath = path.join(
+    __dirname,
+    '..',
+    '..',
+    '..',
+    '..',
+    'packages',
+    'schemas',
+    'src',
+    'types',
+    '**',
+    '*.types.graphql'
   )
+
+  const typesArray = loadFilesSync(typesPath, { recursive: true })
+
   return mergeTypeDefs(typesArray)
 }
 
 function getServerResolvers() {
-  const resolversPath = path.join(__dirname, 'resolvers', '**', '*.resolvers.*')
+  const resolversPath = path.join(__dirname, 'modules', '**', '*.resolvers.*')
   const resolversArray = loadFilesSync(resolversPath)
+
   return mergeResolvers(resolversArray)
 }
 
