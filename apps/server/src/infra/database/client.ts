@@ -1,18 +1,19 @@
 import { PrismaClient } from '.prisma/client'
 
-let prisma: PrismaClient
+export type Database = PrismaClient
 
-export function getPrisma(): PrismaClient {
-  if (prisma) {
-    return prisma
+let db: Database
+
+export function getDatabase(): Database {
+  if (db) {
+    return db
   }
 
-  prisma = new PrismaClient({
+  db = new PrismaClient({
     // log: process.env.PRISMA_DEBUG ? ['query'] : undefined,
   })
 
-  return prisma
+  return db
 }
 
 export type { Todo } from '.prisma/client'
-export type Database = PrismaClient

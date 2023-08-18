@@ -4,7 +4,7 @@ import { ITodoRepository } from '../../../../src/modules/todo/todo.types'
 
 const todosDb = new Map<string, Todo>()
 
-export class TodoInMemRepository implements ITodoRepository {
+export class TodoRepositoryStub implements ITodoRepository {
   async create(
     input: ITodoRepository.CreateTodoInput
   ): ITodoRepository.CreateTodoOutput {
