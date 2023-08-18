@@ -1,8 +1,9 @@
 import type {
   MutationResolvers,
   QueryResolvers,
+  TodoResolvers,
 } from '@core/schemas/__generated__/graphql'
-import { Todo } from '@prisma/client'
+import { Todo as TodoModel } from '@prisma/client'
 import { ApolloContext } from 'src/context'
 import { paginate } from '../../graphql-utils'
 import { makeTodoService } from './factories/makeTodoService'
@@ -18,12 +19,7 @@ export const Query: QueryResolvers = {
 
     if (!todo) return null
 
-    // todo: perhaps a field level resolver would fix this?
-    return {
-      ...todo,
-      updatedAt: todo.updatedAt.toISOString(),
-      createdAt: todo.createdAt.toISOString(),
-    }
+    return todo
   },
 
   todos: async (_parent, { first, after }, ctx: ApolloContext, _info) => {
@@ -34,18 +30,10 @@ export const Query: QueryResolvers = {
       count: first as number | undefined,
     })
 
-    const { edges, pageInfo } = paginate<Todo>(todos)
+    const { edges, pageInfo } = paginate<TodoModel>(todos)
 
     return {
-      edges: edges.map((edge) => ({
-        ...edge,
-        node: {
-          ...edge.node,
-          // todo: perhaps a field level resolver would fix this?
-          createdAt: edge.node.createdAt.toISOString(),
-          updatedAt: edge.node.createdAt.toISOString(),
-        },
-      })),
+      edges,
       pageInfo,
     }
   },
@@ -63,12 +51,16 @@ export const Mutation: MutationResolvers = {
       todoEdge: {
         node: {
           ...todo,
-          // todo: perhaps a field level resolver would fix this?
-          updatedAt: todo.updatedAt.toISOString(),
-          createdAt: todo.createdAt.toISOString(),
         },
         cursor: todo.id,
       },
     }
+  },
+}
+
+export const Todo: TodoResolvers = {
+  updatedAt: (todo, args, ctx, _info) => {
+    console.log({ todo })
+    return new Date().toISOString()
   },
 }
